@@ -30,20 +30,14 @@ class program
         {
             taskChoice = CreateTask();
             UserFiles UserFilesObject = new UserFiles();// object of UserFiles entity created
-
             using ApplicationDbContext context = new ApplicationDbContext();
-            context.UserFilesDbSet.Add(UserFilesObject);
 
             if (taskChoice == 1)//create file
             {
                 Console.Write("Insert the data in database: ");
                 string input = Console.ReadLine();
-                UserFilesObject.MyData = input; // a row is added to the table UserFiles 
+                UserFilesObject.MyData = input; // a row is added to the table UserFiles  
 
-                //Add() method is used to add a new object to the database, and SaveChanges() is used to persist(storing data permanently) any changes made to the database
-                context.SaveChanges();
-                
-                //to show the changes in the database
                 viewTable();
 
             }
@@ -54,26 +48,41 @@ class program
                 if (userFilesObject != null)
                 {
                     Console.Write("replacing data: ");
-                    string replacingData = Console.ReadLine();
-                    userFilesObject.MyData = replacingData;
+                    string replacingData = "prio";
+                    userFilesObject.MyData = replacingData; 
                 }
                 else
                 {
                     Console.WriteLine($"{input} data is not available in database");
-                }
+                } 
                 viewTable();
 
             }
             else if (taskChoice == 3)//delete file
             {
-
+                Console.Write("the data you want to delete: ");
+                string? inputDelete = Console.ReadLine();
+                UserFiles userFilesObject = context.UserFilesDbSet.Where(x => x.MyData == inputDelete).FirstOrDefault();
+                if (userFilesObject != null)
+                {
+                    context.UserFilesDbSet.Remove(userFilesObject);
+                }
+                else
+                {
+                    Console.WriteLine($"{inputDelete} data is not available in database");
+                } 
+                viewTable();
             }
             else// exit
             {
                 return;
             }
+
             void viewTable()
             {
+                context.UserFilesDbSet.Add(UserFilesObject);//Add() method is used to add a new object to the database 
+                context.SaveChanges();
+
                 List<UserFiles> ListrUserFiles = context.UserFilesDbSet.ToList();
                 Console.WriteLine("data in the rows are: ");
                 foreach (var item in ListrUserFiles)
@@ -86,7 +95,6 @@ class program
         else if (StorageChoice == 2)//File as data storage
         {
             taskChoice = CreateTask();
-
         }
         else
         {

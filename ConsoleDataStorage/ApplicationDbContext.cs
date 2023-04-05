@@ -16,7 +16,11 @@ namespace DataBaseModelEntity
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserFiles>().HasKey(u => u.id);
+            modelBuilder.Entity<UserFiles>()
+                .HasKey(u => u.id);
+            modelBuilder.Entity<UserFiles>()
+                .Property(u => u.MyData)
+                .IsRequired();
         }
 
 
