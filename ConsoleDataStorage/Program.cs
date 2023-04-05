@@ -32,7 +32,7 @@ class program
             UserFiles UserFilesObject = new UserFiles();// object of UserFiles entity created
 
             using ApplicationDbContext context = new ApplicationDbContext();
-            
+            context.UserFilesDbSet.Add(UserFilesObject);
 
             if (taskChoice == 1)//create file
             {
@@ -40,8 +40,7 @@ class program
                 string input = Console.ReadLine();
                 UserFilesObject.MyData = input; // a row is added to the table UserFiles 
 
-                //Add() method is used to add a new object to the database, and SaveChanges() is used to persist any changes made to the database
-                context.UserFilesDbSet.Add(UserFilesObject);
+                //Add() method is used to add a new object to the database, and SaveChanges() is used to persist(storing data permanently) any changes made to the database
                 context.SaveChanges();
                 
                 //to show the changes in the database
@@ -50,6 +49,19 @@ class program
             }
             else if (taskChoice == 2)//edit file
             {
+                string input = Console.ReadLine();
+                UserFiles userFilesObject = context.UserFilesDbSet.Where(x => x.MyData == input).FirstOrDefault();
+                if (userFilesObject != null)
+                {
+                    Console.Write("replacing data: ");
+                    string replacingData = Console.ReadLine();
+                    userFilesObject.MyData = replacingData;
+                }
+                else
+                {
+                    Console.WriteLine($"{input} data is not available in database");
+                }
+                viewTable();
 
             }
             else if (taskChoice == 3)//delete file
