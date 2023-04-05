@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Database_with_entity_framework_and_file_operation.DataBaseModelEntity
+namespace ConsoleDataStorage.DataBaseModelEntity
 {
     internal class UserFiles
     {

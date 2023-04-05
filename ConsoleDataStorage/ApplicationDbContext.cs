@@ -1,9 +1,9 @@
-﻿using Database_with_entity_framework_and_file_operation.DataBaseModelEntity;
+﻿using ConsoleDataStorage.DataBaseModelEntity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database_with_entity_framework_and_file_operation
+namespace DataBaseModelEntity
 {
-    internal class ApplicationDBContext : DbContext
+    internal class ApplicationDbContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,7 +19,7 @@ namespace Database_with_entity_framework_and_file_operation
         }
 
 
-        public DbSet<UserFiles> CoursesDbSet { get; set; } //represents the collection of all entities in the context, or that can be queried from the database, of a given type
+        public DbSet<UserFiles> UserFilesDbSet { get; set; } //represents the collection of all entities in the context, or that can be queried from the database, of a given type
         //only the aggregate roots will set in DBset, since admin is a sub object of Course and don't want to access it directly, we won't set it in DbSet
 
     }
