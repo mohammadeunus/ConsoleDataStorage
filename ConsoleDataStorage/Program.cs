@@ -43,7 +43,9 @@ class program
                 //Add() method is used to add a new object to the database, and SaveChanges() is used to persist any changes made to the database
                 context.UserFilesDbSet.Add(UserFilesObject);
                 context.SaveChanges();
-               
+                
+                //to show the changes in the database
+                viewTable();
 
             }
             else if (taskChoice == 2)//edit file
@@ -58,7 +60,15 @@ class program
             {
                 return;
             }
-           
+            void viewTable()
+            {
+                List<UserFiles> ListrUserFiles = context.UserFilesDbSet.ToList();
+                Console.WriteLine("data in the rows are: ");
+                foreach (var item in ListrUserFiles)
+                {
+                    Console.WriteLine($"Id: {item.id} and my data: {item.MyData}");
+                }
+            }
 
         }
         else if (StorageChoice == 2)//File as data storage
