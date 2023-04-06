@@ -110,13 +110,14 @@ class program
             }
 
             taskChoice = CreateTask();
+            // task codes..............................................
+
+            Console.Write("Enter file name: ");
+            string fileName = Console.ReadLine();
+            string filePath = Path.Combine(userFilesPath, fileName);
+
             if (taskChoice==1) //Create File
-            {
-                Console.Write("Enter file name: ");
-                string fileName = Console.ReadLine();
-
-                string filePath = Path.Combine(userFilesPath, fileName);
-
+            { 
                 if (File.Exists(filePath))
                 {
                     Console.WriteLine("File already exists.");
@@ -132,9 +133,19 @@ class program
 
             }
             else if (taskChoice == 2) // Edit File
-            {
+            { 
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine("File does not exist");
+                    return;
+                }
 
+                Console.Write("Enter new file text: ");
+                string fileText = Console.ReadLine();
 
+                File.WriteAllText(filePath, fileText);
+
+                Console.WriteLine("File updated successfully.");
             }
             else if (taskChoice == 3) // Delete File
             {
