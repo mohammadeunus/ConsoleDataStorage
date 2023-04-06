@@ -147,9 +147,18 @@ class program
 
                 Console.WriteLine("File updated successfully.");
             }
+
             else if (taskChoice == 3) // Delete File
             {
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine("File does not exist.");
+                    return;
+                }
 
+                File.Delete(filePath);
+
+                Console.WriteLine("File deleted successfully.");
 
             }
             else // exit
