@@ -101,7 +101,51 @@ class program
         }
         else if (StorageChoice == 2)//File as data storage
         {
+            string userFilesPath = Path.Combine(Directory.GetCurrentDirectory(), "UserFiles");
+
+            // Create UserFiles folder if it doesn't exist
+            if (!Directory.Exists(userFilesPath))
+            {
+                Directory.CreateDirectory(userFilesPath);
+            }
+
             taskChoice = CreateTask();
+            if (taskChoice==1) //Create File
+            {
+                Console.Write("Enter file name: ");
+                string fileName = Console.ReadLine();
+
+                string filePath = Path.Combine(userFilesPath, fileName);
+
+                if (File.Exists(filePath))
+                {
+                    Console.WriteLine("File already exists.");
+                    return;
+                }
+
+                Console.Write("Enter file text: ");
+                string fileText = Console.ReadLine();
+
+                File.WriteAllText(filePath, fileText);
+
+                Console.WriteLine("File created successfully.");
+
+            }
+            else if (taskChoice == 2) // Edit File
+            {
+
+
+            }
+            else if (taskChoice == 3) // Delete File
+            {
+
+
+            }
+            else // exit
+            {
+                return;
+            }
+
         }
         else
         {
