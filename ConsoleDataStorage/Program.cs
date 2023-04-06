@@ -1,6 +1,6 @@
 ﻿using System;
 using ConsoleDataStorage.DataBaseModelEntity;
-using DataBaseModelEntity; 
+using DataBaseModelEntity;
 
 class program
 {
@@ -29,33 +29,41 @@ class program
         if (StorageChoice == 1)// DataBase as data storage
         {
             taskChoice = CreateTask();
-            UserFiles UserFilesObject = new UserFiles();// object of UserFiles entity created
             using ApplicationDbContext context = new ApplicationDbContext();
 
             if (taskChoice == 1)//create file
             {
                 Console.Write("Insert the data in database: ");
                 string input = Console.ReadLine();
+
+                UserFiles UserFilesObject = new UserFiles();// object of UserFiles entity created
                 UserFilesObject.MyData = input; // a row is added to the table UserFiles  
 
-                viewTable();
+                /*it is used only when creating a file, because you want to create a new file and add it to the database.
+                When editing a file, you do not need to add a new object to the database, you only need to modify the existing one. 
+                Therefore, you only call context.SaveChanges();*/
+                context.UserFilesDbSet.Add(UserFilesObject);
+                context.SaveChanges();
 
+                viewTable();
             }
             else if (taskChoice == 2)//edit file
             {
+                Console.Write("the data you want to edit: ");
                 string input = Console.ReadLine();
                 UserFiles userFilesObject = context.UserFilesDbSet.Where(x => x.MyData == input).FirstOrDefault();
                 if (userFilesObject != null)
                 {
                     Console.Write("replacing data: ");
-                    string replacingData = "prio";
-                    userFilesObject.MyData = replacingData; 
+                    string replacingData = Console.ReadLine();
+                    userFilesObject.MyData = replacingData;
+
+                    context.SaveChanges();
                 }
                 else
                 {
                     Console.WriteLine($"{input} data is not available in database");
-                } 
-                viewTable();
+                }
 
             }
             else if (taskChoice == 3)//delete file
@@ -66,11 +74,13 @@ class program
                 if (userFilesObject != null)
                 {
                     context.UserFilesDbSet.Remove(userFilesObject);
+
+                    context.SaveChanges();
                 }
                 else
                 {
                     Console.WriteLine($"{inputDelete} data is not available in database");
-                } 
+                }
                 viewTable();
             }
             else// exit
@@ -80,9 +90,6 @@ class program
 
             void viewTable()
             {
-                context.UserFilesDbSet.Add(UserFilesObject);//Add() method is used to add a new object to the database 
-                context.SaveChanges();
-
                 List<UserFiles> ListrUserFiles = context.UserFilesDbSet.ToList();
                 Console.WriteLine("data in the rows are: ");
                 foreach (var item in ListrUserFiles)
